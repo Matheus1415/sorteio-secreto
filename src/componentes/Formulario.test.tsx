@@ -17,7 +17,7 @@ test('Quando o input está vazio, novos participantes não podem ser adicionados
     //Garantir que o input esteja no documento | verifica se exite no documento
     expect(input).toBeInTheDocument();
 
-    //garantir que o botao esteja desabilitado | verifica se estar desabilitado
+    //garantir que o botao esteja desabilitado | verifica se estar desab
     expect(botao).toBeDisabled();
 
 }); 
