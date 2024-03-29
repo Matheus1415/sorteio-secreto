@@ -1,21 +1,21 @@
-import { realizarSorteio } from "./realizarSorteio";
+import { realizarSorteio } from "./realizarSorteio"
 
-describe('dado um sorteio de amigos secretos', ()=>{
+describe('dado um sorteio de amigo secreto', () => {
+    test('cada participante não sorteie o próprio nome', () => {
 
-    test('cada participante não sortei o proprio nome', () =>{
         const participantes = [
-            'matheus',
-            'vitor',
-            'guilerme',
-            'Juan',
-            'Gabriel',
-            'Daniel'
+            'Ana',
+            'Catarina',
+            'Vinicios',
+            'Juliana',
+            'João',
+            'Nathália'
         ]
 
-        const sorteio = realizarSorteio(participantes);
+        const sorteio = realizarSorteio(participantes)
         participantes.forEach(participante => {
-            const amigosSecreto = sorteio.get(participante);
-            expect(amigosSecreto).not.toEqual(participante);
+            const amigoScreto = sorteio.get(participante)
+            expect(amigoScreto).not.toEqual(participante)
         })
 
     })

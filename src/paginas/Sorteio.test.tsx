@@ -2,69 +2,64 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { RecoilRoot } from "recoil";
 import { useListaDeParticipantes } from "../state/hook/useListaDeParticipantes";
+import { useResultadoSorteio } from "../state/hook/useResultadoSorteio";
 import Sorteio from "./Sorteio";
 
-jest.mock('../state/hook/useListaDeParticipantes', () => ({
-    useListaDeParticipantes: jest.fn()
-}));
-
-jest.mock('../state/hook/useResultadoDoSorteio', () =>{
-    return{
+jest.mock('../state/hook/useListaDeParticipantes', () => {
+    return {
         useListaDeParticipantes: jest.fn()
     }
 })
+jest.mock('../state/hook/useResultadoSorteio', () => {
+    return {
+        useResultadoSorteio: jest.fn()
+    }
+})
 
-describe("A página de sorteio", () => {
+describe('na pagina de sorteio', () => {
     const participantes = [
-        'Matheus',
-        'Vitor',
-        'Guilherme'
-    ];
-
+        'Ana',
+        'Catarina',
+        'Jorel'
+    ]
     const resultado = new Map([
-        ['Matheus','vitor'],
-        ['seila','seila2'],
-        ['seila3','seila4']
+        ['Ana', 'Jorel'],
+        ['Jorel', 'Catarina'],
+        ['Catarina', 'Ana']
     ])
 
     beforeEach(() => {
         (useListaDeParticipantes as jest.Mock).mockReturnValue(participantes);
-    });
-    
-    test('Todos os participantes podem exibir o seu amigo secreto', () => {
-        render(
-            <RecoilRoot>
-                <Sorteio />
-            </RecoilRoot>
-        );
+        (useResultadoSorteio as jest.Mock).mockReturnValue(resultado);
+    })
+    test('todos os participantes podem exibir o seu amigo secreto', () => {
+        render(<RecoilRoot>
+            <Sorteio />
+        </RecoilRoot>)
 
-        const opcoes = screen.getAllByRole('option');
-        expect(opcoes).toHaveLength(participantes.length);
-    });
+        const opcoes = screen.queryAllByRole('option')
+        expect(opcoes).toHaveLength(participantes.length + 1) // pq já vem uma option por padrão
+    })
+    test('o amigo secreto é exibido quando solicitado', () => {
+        render(<RecoilRoot>
+            <Sorteio />
+        </RecoilRoot>)
 
-    test('O amigo secreto é exibido quando solicitado', () =>{
-        render(
-            <RecoilRoot>
-                <Sorteio />
-            </RecoilRoot>
-        );
-
-        const select = screen.getByPlaceholderText('Selecione o seu nome');
-
+        const select = screen.getByPlaceholderText('Selecione o seu nome')
+        
         fireEvent.change(select, {
-            target:{
+            target: {
                 value: participantes[0]
             }
         })
-        
-        const botao = screen.getByRole('button');
+
+        const botao = screen.getByRole('button')
 
         fireEvent.click(botao)
 
-        const AmigoSecreto = screen.getByRole('alert');
+        const amigoSecreto = screen.getByRole('alert')
 
-        expect(AmigoSecreto).toBeInTheDocument();
+        expect(amigoSecreto).toBeInTheDocument()
 
     })
-
-});
+})
