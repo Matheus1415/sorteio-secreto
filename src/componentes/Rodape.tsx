@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom"
-import useListaDeParticipante from "../../state/hook/useListaDeParticipante"
+import { useListaDeParticipantes } from "../state/hook/useListaDeParticipantes"
 
 import './Rodape.css'
 
 const Rodape = () => {
 
-    const participantes = useListaDeParticipante();
+    const participantes = useListaDeParticipantes()
 
     const navegarPara = useNavigate()
     

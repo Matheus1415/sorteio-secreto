@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { RecoilRoot } from "recoil";
-import useListaDeParticipante from "../../state/hook/useListaDeParticipante";
+import { useListaDeParticipantes } from "../state/hook/useListaDeParticipantes";
 import Rodape from "./Rodape";
 
-jest.mock('../../state/hook/useListaDeParticipante', () => {
+jest.mock('../state/hook/useListaDeParticipantes', () => {
     return {
         useListaDeParticipantes: jest.fn()
     }
@@ -20,7 +20,7 @@ jest.mock('react-router-dom', () => {
 
 describe('quando não existem participantes suficientes', () => {
     beforeEach(() => {
-        (useListaDeParticipante as jest.Mock).mockReturnValue([])
+        (useListaDeParticipantes as jest.Mock).mockReturnValue([])
     })
     test('a brincadeira não pode ser iniciada', () => {
         render(<RecoilRoot>
@@ -33,7 +33,7 @@ describe('quando não existem participantes suficientes', () => {
 
 describe('quando existem participantes suficientes', () => {
     beforeEach(() => {
-        (useListaDeParticipante as jest.Mock).mockReturnValue(['Ana', 'Catarina', 'Josefina'])
+        (useListaDeParticipantes as jest.Mock).mockReturnValue(['Ana', 'Catarina', 'Josefina'])
     })
     test('a brincadeira pode ser iniciada', () => {
         render(<RecoilRoot>
